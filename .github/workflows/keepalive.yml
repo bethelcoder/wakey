@@ -1,0 +1,33 @@
+name: Render 24/7 Keepalive Ping
+
+on:
+  schedule:
+    # Trigger every 10 minutes to prevent Render free-tier from sleeping (timeout is 15 mins)
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Wakey Render Backend
+        run: |
+          TARGET_URL="${{ secrets.RENDER_SERVER_URL }}"
+          if [ -z "$TARGET_URL" ]; then
+            echo "⚠️ RENDER_SERVER_URL secret is not set yet. Skipping ping."
+            exit 0
+          fi
+          
+          # Clean trailing slash if present
+          CLEAN_URL="${TARGET_URL%/}"
+          PING_ENDPOINT="$CLEAN_URL/healthz"
+          
+          echo "📡 Pinging Keepalive endpoint: $PING_ENDPOINT"
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$PING_ENDPOINT" || echo "failed")
+          echo "Response Status Code: $HTTP_STATUS"
+          
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "✅ Render backend is active and awake!"
+          else
+            echo "⚠️ Ping received status: $HTTP_STATUS"
+          fi

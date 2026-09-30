@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Wakey</string>
+    <string name="wake_up_title">WAKE UP!</string>
+    <string name="wake_up_desc">Log into your PC browser to disarm this alarm.</string>
+    <string name="fcm_token_title">Device FCM Token</string>
+    <string name="fcm_token_hint">Waiting for FCM token...</string>
+    <string name="copy_token">Copy Token for PC</string>
+    <string name="test_alarm">Test Trigger Alarm (Instant)</string>
+    <string name="schedule_alarm">Set Daily Alarm</string>
+    <string name="cancel_alarm">Cancel Scheduled Alarm</string>
+    <string name="alarm_status_active">Alarm is SCHEDULED</string>
+    <string name="alarm_status_inactive">No active scheduled alarm</string>
+    <string name="permission_notice">Grant background &amp; exact alarm permissions for reliability</string>
+</resources>
